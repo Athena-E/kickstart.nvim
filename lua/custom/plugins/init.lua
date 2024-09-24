@@ -4,35 +4,7 @@
 -- See the kickstart.nvim README for more information
 local plugins = {
   {
-    'rcarriga/nvim-dap-ui',
-    dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
-    config = function()
-      local dap = require 'dap'
-      local dapui = require 'dapui'
-      dapui.setup()
-      dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close()
-      end
-    end,
-  },
-  {
-    'mfussenegger/nvim-dap',
-    keys = {
-      {
-        '<leader>db',
-        '<cmd>DapToggleBreakpoint<CR>',
-        mode = 'n',
-        desc = '[D]ebug [B]reakpoint',
-      },
-    },
-  },
-  {
+    -- Python debugger
     'mfussenegger/nvim-dap-python',
     ft = 'python',
     dependencies = {
@@ -58,12 +30,40 @@ local plugins = {
     'christoomey/vim-tmux-navigator',
   },
   {
+    -- Vimtex install
     'lervag/vimtex',
     lazy = false,
   },
   {
-    'neoclide/coc.nvim',
-    branch = 'release',
+    -- asynchronous IO, interact with tests
+    'nvim-neotest/nvim-nio',
+  },
+  {
+    -- commenting shortcuts
+    'terrortylor/nvim-comment',
+    config = function()
+      require('nvim_comment').setup()
+      -- gcc: comment/uncomment current line
+      -- gc{motion}: comment/uncomment defined by a motion
+      -- gc: visual mode comment/uncomment
+      -- gcip: comment/uncomment a paragraph
+      -- gcic: uncomment commented block
+      -- dic: delete comment block
+      -- gc4j: comment/uncomment 4 lines below current line
+    end,
+  },
+  {
+    -- ts/js/html autotag
+    'windwp/nvim-ts-autotag',
+  },
+  {
+    -- floating function signature (not working)
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function(_, opts)
+      require('lsp_signature').setup(opts)
+    end,
   },
 }
 
