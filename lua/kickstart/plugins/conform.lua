@@ -33,6 +33,7 @@ return {
         -- is found.
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },
+        c = { 'clang-format' },
       },
     },
   },

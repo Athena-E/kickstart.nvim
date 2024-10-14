@@ -24,9 +24,79 @@ return {
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
-  config = function()
+  config = function(_, opts)
     local dap = require 'dap'
     local dapui = require 'dapui'
+
+    -- python debugger
+    dap.configurations.python = {
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Launch file',
+        program = '${file}',
+        pythonPath = function()
+          return '/usr/bin/python'
+        end,
+      },
+    }
+
+    -- js debugger
+    dap.adapters.node2 = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js' },
+    }
+
+    dap.configurations.javascript = {
+      {
+        -- Launch the current file with Node.js
+        type = 'node2',
+        request = 'launch',
+        name = 'Launch file',
+        program = '${file}', -- This will launch the current file
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
+        -- Attach to a running Node.js process
+        type = 'node2',
+        request = 'attach',
+        name = 'Attach to process',
+        processId = require('dap.utils').pick_process,
+        cwd = vim.fn.getcwd(),
+      },
+    }
+
+    -- Configure DAP for C/C++ using LLDB
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      host = '127.0.0.1',
+      executable = {
+        command = '/.local/share/nvim/mason/bin/codelldb',
+        args = { '--port', '${port}' },
+      },
+    }
+
+    dap.configurations.cpp = {
+      {
+        name = 'Launch file',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        runInTerminal = false,
+      },
+    }
+
+    dap.configurations.c = dap.configurations.cpp
+    dap.configurations.rust = dap.configurations.cpp
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with

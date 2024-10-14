@@ -33,7 +33,7 @@ ls.add_snippets('tex', {
       '\\setlength{\\parindent}{0pt}',
       '\\usepackage{enumitem}',
       '\\usepackage{setspace}',
-      '% \\setlist{itemsep=0pt,parsep=0pt}',
+      '\\setlist{itemsep=0pt,parsep=0pt}',
       '',
       '\\begin{document}',
       '',
@@ -49,5 +49,27 @@ ls.add_snippets('tex', {
     t { '\\texttt{' },
     i(1),
     t { '}' },
+  }),
+  s('ig', {
+    t { '\\begin{center}', '  \\includegraphics[scale=' },
+    i(1),
+    t { ']{' },
+    i(2),
+    t { '}', '\\end{center}' },
+  }),
+  s('lb', {
+    t { '\\textbf{' },
+    i(1),
+    t { '}' },
+  }),
+  s('it', {
+    t { '\\textit{' },
+    i(1),
+    t { '}' },
+  }),
+  s('iz', {
+    t { '\\begin{itemize}', '  \\item ' },
+    i(1),
+    t { '', '\\end{itemize}' },
   }),
 })

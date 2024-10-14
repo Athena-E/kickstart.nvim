@@ -34,6 +34,16 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Vimtex keybindings
 vim.keymap.set('n', '<leader>ll', '<cmd>VimtexCompile<CR>', { desc = 'Vimtex Compile' })
 vim.keymap.set('n', '<leader>lv', '<cmd>VimtexView<CR>', { desc = '[L]atex [V]iew' })
+-- Spellcheck keybindings
+vim.keymap.set('n', '<leader>st', function()
+  if vim.wo.spell then
+    vim.wo.spell = false
+    print 'Spell check OFF'
+  else
+    vim.wo.spell = true
+    print 'Spell check ON'
+  end
+end, { desc = '[S]pell [T]oggle' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`

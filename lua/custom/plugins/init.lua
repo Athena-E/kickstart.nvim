@@ -4,29 +4,6 @@
 -- See the kickstart.nvim README for more information
 local plugins = {
   {
-    -- Python debugger
-    'mfussenegger/nvim-dap-python',
-    ft = 'python',
-    dependencies = {
-      'mfussenegger/nvim-dap',
-      'rcarriga/nvim-dap-ui',
-    },
-    config = function(_, opts)
-      local path = '~/.local/share/nvim/mason/packages/debugpy/venv/bin/python'
-      require('dap-python').setup(path)
-    end,
-    keys = {
-      {
-        '<leader>dpr',
-        function()
-          require('dap-python').test_method()
-        end,
-        mode = 'n',
-        desc = '[D]ebug [P]ython [R]un',
-      },
-    },
-  },
-  {
     'christoomey/vim-tmux-navigator',
   },
   {
@@ -55,9 +32,12 @@ local plugins = {
   {
     -- ts/js/html autotag
     'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end,
   },
   {
-    -- floating function signature (not working)
+    -- floating function signature
     'ray-x/lsp_signature.nvim',
     event = 'VeryLazy',
     opts = {},
